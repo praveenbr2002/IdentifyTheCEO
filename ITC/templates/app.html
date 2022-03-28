@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identify The CEO</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'dropzone.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app.css' %}">
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light justify-content-center">
+        <a class="navbar-brand" href="#">Identify The CEO</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col card-wrapper" data-player="Tim Cook">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{% static 'images/0.jpg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Tim Cook</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>            
+            <div class="col card-wrapper" data-player="Satya Nadella">
+                    <div class="card border-0">
+                        <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                            <img class="w-100 h-100" src="{% static 'images/1.jpg' %}" alt="Card image cap">
+                        </div>
+                        <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Satya Nadella</h6>                            
+                            </p>
+                        </div>
+                    </div>
+            </div>            
+            <div class="col card-wrapper" data-player="Elon Musk">
+                    <div class="card border-0">
+                        <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                            <img class="w-100 h-100" src="{% static 'images/2.jpg' %}" alt="Card image cap">
+                        </div>
+                        <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Elon Musk</h6>                            
+                            </p>
+                        </div>
+                    </div>
+            </div>          
+
+            <div class="col card-wrapper" data-player="Sundar Pichai">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{% static 'images/3.jpg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Sundar Pichai</h6>                        
+                            </p>
+                    </div>
+                </div>
+            </div>      
+
+            <div class="col card-wrapper" data-player="Susan Wojcicki">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{% static 'images/4.jpg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Susan Wojcicki</h6>                        
+                            </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col card-wrapper" data-player="Safra Catz">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{% static 'images/5.jpg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Safra Catz</h6>                        
+                            </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col card-wrapper" data-player="Mark Zuckerberg">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{% static 'images/6.jpg' %}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Mark Zuckerberg</h6>                        
+                            </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <form action="/file-upload" class="dropzone" id="dropzone">
+                        {%csrf_token%}
+                            <div class="dz-message needsclick">
+                                <img src="{% static 'upload.png' %}" width="50vw" height="50vw"><br>
+                                <span class="note needsclick">Drop files here or click to upload</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3 mx-auto">
+                        <button id="submitBtn" type="button" class="btn btn-success">Classify</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-8 error" id="error" >
+                <p>Can't classify image. Classifier was not able to detect face and two eyes properly</p>    
+            </div>
+
+            <div class="col-sm-4" id="resultHolder">
+            </div>
+            <div class="col-sm-4" id="divClassTable">
+                <table id="classTable">
+                        <tr>
+                            <th>Player</th>
+                            <th>Probability Score</th>
+                        </tr>
+                        <tr>
+                            <td>Tim Cook</td>
+                            <td id="score_0"></td>
+                        </tr>
+                        <tr>
+                            <td>Satya Nadella</td>
+                            <td id="score_1"></td>
+                        </tr>
+                        <tr>
+                            <td>Elon Musk</td>
+                            <td id="score_2"></td>
+                        </tr>
+                        <tr>
+                            <td>Sundar Pitchai</td>
+                            <td id="score_3"></td>
+                        </tr>
+                        <tr>
+                            <td>Susan Wojcicki</td>
+                            <td id="score_4"></td>
+                        </tr>
+                        <tr>
+                            <td>Safra Catz</td>
+                            <td id="score_5"></td>
+                        </tr>
+                        <tr>
+                            <td>Mark Zuckerberg</td>
+                            <td id="score_6"></td>
+                        </tr>
+                </table>
+            </div>
+            
+        </div>
+
+    </div>
+
+</body>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="{% static 'dropzone.min.js' %}"></script>
+<script src="{% static 'app.js' %}"></script>
+</html>
