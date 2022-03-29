@@ -16,7 +16,7 @@ function init() {
     });
 
     dz.on("complete", function (file) {
-        var url = "http://127.0.0.1:8080/classify/";
+        var url = "http://127.0.0.1:8000/classify/";
         $.post(url, 
             {image_data: file.dataURL},
             function (data){
