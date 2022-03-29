@@ -47,6 +47,7 @@ def classify_image(image_base64_data, file_path=None):
 
         final = combined_img.reshape(1,len_image_array).astype(float)
         result.append( {
+            'bool' : 1,
             'class': class_number_to_name(__model.predict(final)[0]),
             'prob' : max(np.around(__model.predict_proba(final)*100,2).tolist()[0]),
             'class_probability': np.around(__model.predict_proba(final)*100,2).tolist()[0],
@@ -77,8 +78,6 @@ def load_saved_artifacts():
 def get_cv2_image_from_base64_string(b64str):
     '''
     credit: https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
-    :param uri:
-    :return:
     '''
     encoded_data = b64str.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)

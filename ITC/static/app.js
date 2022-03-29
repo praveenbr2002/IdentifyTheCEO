@@ -16,43 +16,28 @@ function init() {
     });
 
     dz.on("complete", function (file) {
-        var url = "http://127.0.0.1:8000/classify/";
-        $.post(url, {
-            image_data: file.dataURL
-        },function(data, status) {
+        var url = "http://127.0.0.1:8080/classify/";
+        $.post(url, 
+            {image_data: file.dataURL},
+            function (data){
+                if (data['bool'] == 0){
+                    $("#error").show();
+                    $("#resultHolder").hide();
+                    $("#divClassTable").hide();
+                }
+                else if (data['bool'] == 1){
+                    $("#error").hide();
+                    $("#resultHolder").show();
+                    $("#divClassTable").show();
+                    $("#resultHolder").html($(`[data-player="${data['class']}"`).html());
+                    for (let x in data['class_dictionary']){
+                        $("#score_"+String(data['class_dictionary'][x])).html(data['class_probability'][data['class_dictionary'][x]]);
+                        //console.log("score_"+String(data['class_dictionary'][x]));
+                    }
 
-            console.log(data);
-            if (!data || data.length==0) {
-                $("#resultHolder").hide();
-                $("#divClassTable").hide();                
-                $("#error").show();
-                return;
-            }
-            
-            let match = null;
-            let bestScore = -1;
-            for (let i=0;i<data.length;++i) {
-                let maxScoreForThisClass = Math.max(...data[i].class_probability);
-                if(maxScoreForThisClass>bestScore) {
-                    match = data[i];
-                    bestScore = maxScoreForThisClass;
                 }
             }
-            if (match) {
-                $("#error").hide();
-                $("#resultHolder").show();
-                $("#divClassTable").show();
-                $("#resultHolder").html($(`[data-player="${match.class}"`).html());
-                let classDictionary = match.class_dictionary;
-                for(let personName in classDictionary) {
-                    let index = classDictionary[personName];
-                    let proabilityScore = match.class_probability[index];
-                    let elementName = "#score_" + personName;
-                    $(elementName).html(proabilityScore);
-                }
-            }
-            // dz.removeFile(file);            
-        });
+            );
     });
 
     $("#submitBtn").on('click', function (e) {
@@ -61,11 +46,10 @@ function init() {
 }
 
 $(document).ready(function() {
-    console.log( "ready!" );
+    console.log( "ready!" );   
     $("#error").hide();
     $("#resultHolder").hide();
     $("#divClassTable").hide();
-
     init();
 });
 
